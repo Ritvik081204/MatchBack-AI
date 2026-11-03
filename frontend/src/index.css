@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+[data-theme='dark'] {
+  --bg: 8 12 24;
+  --surface: 15 22 38;
+  --surface2: 22 31 52;
+  --line: 38 50 76;
+  --ink: 238 243 252;
+  --mute: 139 152 180;
+  --accent: 57 255 136;
+  --accent-ink: 6 20 14;
+  --sky: 86 192 255;
+  --amber: 255 190 70;
+  --rose: 255 99 120;
+  --violet: 167 139 250;
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: 243 246 251;
+  --surface: 255 255 255;
+  --surface2: 238 242 249;
+  --line: 218 225 238;
+  --ink: 11 18 36;
+  --mute: 90 104 134;
+  --accent: 0 150 82;
+  --accent-ink: 255 255 255;
+  --sky: 10 120 200;
+  --amber: 176 104 0;
+  --rose: 208 40 70;
+  --violet: 100 70 220;
+  color-scheme: light;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  transition: background-color .3s ease, color .3s ease;
+}
+h1, h2, h3, .font-display { font-family: 'Space Grotesk', Inter, system-ui, sans-serif; letter-spacing: -0.02em; }
+::selection { background: rgb(var(--accent) / .3); }
+:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; border-radius: 6px; }
+
+@layer components {
+  .card { @apply rounded-2xl border border-line bg-surface; }
+  .card-pad { @apply rounded-2xl border border-line bg-surface p-4 sm:p-5; }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface2 px-3 py-1.5 text-xs font-medium text-mute
+      transition hover:border-accent/50 hover:text-ink;
+  }
+  .chip-on { @apply border-accent/70 bg-accent/15 text-accent; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition
+      disabled:cursor-not-allowed disabled:opacity-50 active:scale-[.98];
+  }
+  .btn-primary { @apply bg-accent text-accent-ink hover:brightness-110 shadow-glow; }
+  .btn-ghost { @apply border border-line bg-surface2 text-ink hover:border-accent/50; }
+  .label { @apply text-[11px] font-semibold uppercase tracking-[.12em] text-mute; }
+  .num { font-variant-numeric: tabular-nums; }
+  .skeleton { @apply animate-pulse rounded-xl bg-surface2; }
+}
+
+/* subtle cricket-themed background: pitch lines + drifting ball arcs */
+.pitch-bg {
+  background:
+    radial-gradient(60% 50% at 80% 0%, rgb(var(--accent) / .12), transparent 70%),
+    radial-gradient(50% 40% at 0% 30%, rgb(var(--sky) / .10), transparent 70%);
+}
+.stumps-lines {
+  background-image: repeating-linear-gradient(90deg, rgb(var(--ink) / .035) 0 1px, transparent 1px 64px);
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+.scroll-x { overflow-x: auto; scrollbar-width: thin; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* Recharts text colours follow the theme */
+.recharts-text, .recharts-cartesian-axis-tick-value { fill: rgb(var(--mute)); font-size: 11px; }
+.recharts-default-tooltip { background: rgb(var(--surface)) !important; border: 1px solid rgb(var(--line)) !important; border-radius: 12px !important; }
