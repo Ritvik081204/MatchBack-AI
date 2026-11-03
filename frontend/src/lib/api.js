@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Same-origin in dev (Vite proxy) and when the API is served alongside; override for a separately hosted backend.
-const http = axios.create({ baseURL: import.meta.env.VITE_API_URL || '', timeout: 45000 })
+export const http = axios.create({ baseURL: import.meta.env.VITE_API_URL || '', timeout: 45000 })
 
 const at = (v) => (v === null || v === undefined ? {} : { at: v })
 
@@ -27,6 +27,6 @@ export function errorMessage(err) {
     return typeof d === 'string' ? d : 'The request was not valid.'
   }
   if (err?.code === 'ECONNABORTED') return 'The server took too long to respond.'
-  if (err?.message === 'Network Error') return 'Cannot reach the MatchBack AI server. Is the backend running on port 8000?'
+  if (err?.message === 'Network Error') return 'Cannot reach the MatchBack AI server. Please try again in a moment.'
   return err?.message || 'Something went wrong.'
 }

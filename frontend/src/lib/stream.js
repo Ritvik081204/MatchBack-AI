@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { api } from './api'
+import { api, http } from './api'
 
 /** Load everything a stream-style screen needs for one demo/highlights match id: ball records + key events. */
 export async function loadStream(id) {
@@ -7,7 +6,7 @@ export async function loadStream(id) {
   const max = details.replay.max_seq
   const balls = []
   for (let off = 0; off <= max; off += 500) {
-    const page = await axios.get(`/api/matches/${id}/ball-by-ball`, { params: { at: max, limit: 500, offset: off } })
+    const page = await http.get(`/api/matches/${id}/ball-by-ball`, { params: { at: max, limit: 500, offset: off } })
     balls.push(...page.data.items)
     if (balls.length >= page.data.total) break
   }
